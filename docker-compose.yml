@@ -57,7 +57,7 @@ services:
       - influxdb
     ports:
       - 3000:3000
-    user: "${UID}:#{UID}"
+    user: ${UID}
     volumes:
       - ./data/grafana:/var/lib/grafana
 
