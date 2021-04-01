@@ -59,8 +59,6 @@ services:
     container_name: ${PROJECT_NAME}-portainer
     image: portainer/portainer-ce:linux-arm
     restart: always
-    command: |-
-      --no-auth -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
