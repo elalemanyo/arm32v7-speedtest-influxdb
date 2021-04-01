@@ -1,8 +1,5 @@
 version: '3'
 services:
-  # Tests the current internet connection speed
-  # once per hour and writes the results into an
-  # InfluxDB instance
   speedtest:
     container_name: ${PROJECT_NAME}-speedtest
     image: robinmanuelthiel/speedtest:0.1.1
@@ -18,8 +15,6 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
 
-  # Creates an InfluxDB instance to store the
-  # speed test results
   influxdb:
     container_name: ${PROJECT_NAME}-influxdb
     image: arm32v7/influxdb:latest
@@ -48,7 +43,6 @@ services:
       - INFLUXDB_USERNAME=${DB_USERNAME}
       - INFLUXDB_PASSWORD=${DB_PASSWORD}
 
-  # Displays the results in a Grafana dashborad
   grafana:
     container_name: ${PROJECT_NAME}-grafana
     image: grafana/grafana:latest
@@ -61,7 +55,13 @@ services:
     volumes:
       - ./data/grafana:/var/lib/grafana
 
-volumes:
-  grafana:
-  chronograf:
-  influxdb:
+  portainer:
+    container_name: ${PROJECT_NAME}-portainer
+    image: portainer/portainer-ce:linux-arm
+    restart: always
+    command: |-
+      --no-auth -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9000:9000
