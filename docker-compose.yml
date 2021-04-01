@@ -59,7 +59,11 @@ services:
     container_name: ${PROJECT_NAME}-portainer
     image: portainer/portainer-ce:linux-arm
     restart: always
+    command: |-
+      -H unix:///var/run/docker.sock
+      --admin-password-file /tmp/portainer_password
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_admin_password:/tmp/portainer_password
     ports:
       - 9000:9000
